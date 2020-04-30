@@ -9,5 +9,15 @@ public class TesteHanoiTower {
 
 		hanoiTower.move('A', 'B');
 		hanoiTower.print();
+
+		hanoiTower.move('A', 'C');
+		hanoiTower.print();
+
+		hanoiTower.move('A', 'B');
+		hanoiTower.print();
+
+		hanoiTower.move('B', 'A');
+		hanoiTower.print();
+
 	}
 }
