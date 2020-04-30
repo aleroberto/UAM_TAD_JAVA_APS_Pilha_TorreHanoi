@@ -18,21 +18,36 @@ public class HanoiTower {
 		System.out.println("Movendo de " + pinoOrigem + " para " + pinoDestino);
 	}
 
+	Pilha retornaPilha(char pilha) throws Exception {
+
+		switch (pilha) {
+		case 'A':
+			return pinoA;
+
+		case 'B':
+			return pinoB;
+
+		case 'C':
+			return pinoC;
+
+		default:
+			throw new Exception();
+
+		}
+
+	}
+
 	public void move(char pinoOrigem, char pinoDestino) {
 
-		if (pinoOrigem == 'A' && pinoDestino == 'B') {
-			this.messageMovement(pinoOrigem, pinoDestino);
-
-			if (!pinoA.pilhaVazia() && pinoB.topo < pinoA.topo) {
-				pinoB.empilha(pinoA.desempilha());
+		try {
+			if (this.retornaPilha(pinoDestino).topo > this.retornaPilha(pinoOrigem).topo) {
+				this.retornaPilha(pinoDestino).empilha(this.retornaPilha(pinoOrigem).desempilha());
+			} else {
+				System.out.println("Erro. Tente novamente");
 			}
-
-		} else if (pinoOrigem == 'A' && pinoDestino == 'C') {
-			this.messageMovement(pinoOrigem, pinoDestino);
-
-			if (!pinoA.pilhaVazia() && pinoC.topo < pinoA.topo) {
-				pinoC.empilha(pinoA.desempilha());
-			}
+		} catch (Exception e) {
+			System.out.println("Ops. vc escolheu errado");
+			e.printStackTrace();
 		}
 	}
 
