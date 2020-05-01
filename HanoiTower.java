@@ -1,103 +1,79 @@
+/**
+ * @autor: Alexandre Roberto RA 21434418
+ * @autor: honatan Lima Ra 21337942
+ **/
 
 public class HanoiTower {
-	Pilha pinoA;
-	Pilha pinoB;
-	Pilha pinoC;
+    Pilha pinoA;
+    Pilha pinoB;
+    Pilha pinoC;
 
-	public HanoiTower() {
-		pinoA = new Pilha(3);
-		pinoB = new Pilha(3);
-		pinoC = new Pilha(3);
+    public HanoiTower() {
+        pinoA = new Pilha(3);
+        pinoB = new Pilha(3);
+        pinoC = new Pilha(3);
 
-		pinoA.empilha(3);
-		pinoA.empilha(2);
-		pinoA.empilha(1);
-	}
+        pinoA.empilha(3);
+        pinoA.empilha(2);
+        pinoA.empilha(1);
+    }
 
-	public boolean checks(char pinoOrigem, char destino) {
-		Pilha checkOrigem = new Pilha(3);
-		int checkDestino = -1;
-		switch (pinoOrigem) {
-			case 'A':
-				checkOrigem = pinoA;
-				break;
-			case 'B':
-				checkOrigem = pinoB;
-				break;
-			case 'C':
-				checkOrigem = pinoC;
-				break;
-		}
-		switch (destino) {
-			case 'A':
-				checkDestino = pinoA.vetor[pinoA.topo == -1 ? 0 : pinoA.topo];
-				break;
-			case 'B':
-				checkDestino = pinoB.vetor[pinoB.topo  == -1 ? 0 : pinoB.topo];
-				break;
-			case 'C':
-				checkDestino = pinoC.vetor[pinoC.topo  == -1 ? 0 : pinoC.topo];
-			default:
-				break;
-		}
-		return (checkOrigem.pilhaVazia() || (checkOrigem.vetor[checkOrigem.topo] > checkDestino && checkDestino != 0));
-	}
+    public boolean checks(char pinoOrigem, char destino) {
 
-	public void move(char pinoOrigem, char pinoDestino) {
+        int checkDestino = -1;
+        try {
+            checkDestino = this.atribuirPilha(destino).vetor[this.atribuirPilha(destino).topo == -1 ? 0
+                           : this.atribuirPilha(destino).topo];
+            return (atribuirPilha(pinoOrigem).pilhaVazia()
+                    || (atribuirPilha(pinoOrigem).vetor[atribuirPilha(pinoOrigem).topo] > checkDestino
+                        && checkDestino != 0));
+        } catch (Exception e) {
+            System.out.println("");
+        }
+        return false;
 
-		if (checks(pinoOrigem, pinoDestino)) {
-			System.out.println("Nao foi possível mover " + pinoOrigem + " para " + pinoDestino + ", verifique os pinos");
-		} else {
+    }
 
-			System.out.println("Movendo de " + pinoOrigem + " para " + pinoDestino + "\n");
+    public void move(char pinoOrigem, char pinoDestino) {
 
-			if (pinoOrigem == 'A') {
-				switch (pinoDestino) {
-					case 'B':
-						pinoB.empilha(pinoA.desempilha());
-						break;
-					case 'C':
-						pinoC.empilha(pinoA.desempilha());
-						break;
-				}
-				pinoA.vetor[pinoA.topo + 1] = 0;
-			}
+        try {
+            if (checks(pinoOrigem, pinoDestino) || pinoOrigem == pinoDestino) {
+                System.out.println("ERRRRROU.... Movimento incorreto: " + pinoOrigem + "  e  " + pinoDestino);
+            } else {
+                try {
+                    this.atribuirPilha(pinoDestino).empilha(this.atribuirPilha(pinoOrigem).desempilha());
+                    this.atribuirPilha(pinoOrigem).vetor[this.atribuirPilha(pinoOrigem).topo + 1] = 0;
+                } catch (Exception e) {
+                    System.out.println("ERRRRROU.... Movimento incorreto: " + pinoOrigem + "  e  " + pinoDestino);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("ERRRRROU.... Movimento incorreto: " + pinoOrigem + "  e  " + pinoDestino);
+            e.printStackTrace();
+        }
+    }
 
-			else if (pinoOrigem == 'B') {
-				switch (pinoDestino) {
-					case 'A':
-						pinoA.empilha(pinoB.desempilha());
-						break;
-					case 'C':
-						pinoC.empilha(pinoB.desempilha());
-					default:
-						break;
-				}
-				pinoB.vetor[pinoB.topo + 1] = 0;
-			}
+    public Pilha atribuirPilha(char pilhaCorrespondente) throws Exception {
 
-			else if (pinoOrigem == 'C') {
-				
-				switch (pinoDestino) {
-					case 'A':
-						pinoA.empilha(pinoC.desempilha());
-						break;
-					case 'B':
-						pinoB.empilha(pinoC.desempilha());
-					default:
-						break;
-				}
-				pinoC.vetor[pinoC.topo + 1] = 0;
-			}
-		}
-	}
+        switch (pilhaCorrespondente) {
+        case 'A':
+            return pinoA;
+        case 'B':
+            return pinoB;
+        case 'C':
+            return pinoC;
+        default:
+            throw new Exception();
+        }
 
-	public void print() {
-		for (int i = 2; i >= 0; i--) {
-			System.out.println((pinoA.vetor[i] == 0 ? '-' : Integer.toString(pinoA.vetor[i])) + " | "
-					+ (pinoB.vetor[i] == 0 ? '-' : Integer.toString(pinoB.vetor[i])) + " | "
-					+ (pinoC.vetor[i] == 0 ? '-' : Integer.toString(pinoC.vetor[i])));
-		}
-		System.out.println("A | B | C\n");
-	}
+    }
+
+    public void print() {
+        for (int i = 2; i >= 0; i--) {
+            System.out.println((pinoA.vetor[i] == 0 ? '-' : Integer.toString(pinoA.vetor[i])) + " | "
+                               + (pinoB.vetor[i] == 0 ? '-' : Integer.toString(pinoB.vetor[i])) + " | "
+                               + (pinoC.vetor[i] == 0 ? '-' : Integer.toString(pinoC.vetor[i])));
+        }
+        System.out.println("A | B | C\n");
+    }
 }
