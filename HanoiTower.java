@@ -1,6 +1,6 @@
 /**
- * @autor: Alexandre Roberto RA 21434418
- * @autor: honatan Lima Ra 21337942
+ * @autor: Alexandre Roberto RA 
+ * @autor: honatan Lima Ra 
  **/
 
 public class HanoiTower {
